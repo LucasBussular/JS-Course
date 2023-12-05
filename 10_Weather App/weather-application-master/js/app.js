@@ -34,6 +34,16 @@ const requestDataFromAPI = async (cityName) => {
     insertTextIntoDOM(cityWeatherContainer, WeatherText)
     insertTextIntoDOM(cityTemperatureContainer, Temperature.Metric.Value)
     insertHTMLIntoDOM(timeIconContainer, timeIcon)
+
+    showCityCard()
+}
+
+const showLocalStorageCity = () => {
+    const city = localStorage.getItem('city')
+    
+    if (city) {
+        requestDataFromAPI(city)
+    }
 }
 
 cityForm.addEventListener('submit', event => {
@@ -43,9 +53,10 @@ cityForm.addEventListener('submit', event => {
     event.preventDefault()
 
     // checa se o card está com o display none
-    showCityCard()
     requestDataFromAPI(inputValue)
 
+    localStorage.setItem('city', inputValue)
     cityForm.reset()
 })
 
+showLocalStorageCity()
